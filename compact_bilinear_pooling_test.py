@@ -13,7 +13,7 @@ def bp(bottom1, bottom2, sum_pool=True):
     bottom2_flat = bottom2.reshape((-1, bottom2.shape[-1]))
 
     output = np.empty((batch_size*height*width, output_dim), np.float32)
-    for n in xrange(len(output)):
+    for n in range(len(output)):
         output[n, ...] = np.outer(bottom1_flat[n], bottom2_flat[n]).reshape(-1)
     output = output.reshape((batch_size, height, width, output_dim))
 

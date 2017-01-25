@@ -1,14 +1,40 @@
 # Compact Bilinear Pooling
 
-This repository contains the tensorflow implementation of Compact Bilinear
-Pooling.
+This repository contains the tensorflow implementation of Compact Bilinear Pooling.
 
-Details in `compact_bilinear_pooling_layer` in `compact_bilinear_pooling.py`.
+## Usage
+
+Details of this operation can be seen in `compact_bilinear_pooling_layer` in `compact_bilinear_pooling.py`.
 ```
 def compact_bilinear_pooling_layer(bottom1, bottom2, output_dim, sum_pool=True,
     rand_h_1=None, rand_s_1=None, rand_h_2=None, rand_s_2=None,
     seed_h_1=1, seed_s_1=3, seed_h_2=5, seed_s_2=7, sequential=True,
     compute_size=128)
+```
+
+## Testing
+
+To test whether it works correctly on your system, run:
+```
+python compact_bilinear_pooling_test.py
+```
+The tests pass if no error occurs running the above command.
+
+# Building
+
+The `sequential_fft/build/sequential_batch_fft.so` is built against TensorFlow
+version 0.12.1 with CUDA 8.0 and g++ 4.8.4, which should be compatible with the
+official build of TensorFlow 0.12.1 on Ubuntu/Linux 64-bit.
+
+If you set `sequential=True` (Default), you will need this `sequential_batch_fft.so` to be compatible with your TensorFlow installation.
+
+If installed TensorFlow from source, or want to use a different version of TensorFlow
+other than 0.12.1 that may be built with a different compiler and a different CUDA
+version, you may need to rebuild `sequential_batch_fft.so` with `compile.sh` in `sequential_fft/`,
+*using the same CUDA version and C++ compiler*. To see the compiler version of an official TF build,
+run in Python the follows.
+```
+import tensorflow as tf; print(tf.__compiler_version__)
 ```
 
 Reference:

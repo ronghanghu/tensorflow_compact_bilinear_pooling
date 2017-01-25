@@ -9,13 +9,13 @@ def _fft(bottom, sequential, compute_size):
     if sequential:
         return sequential_batch_fft(bottom, compute_size)
     else:
-        return tf.batch_fft(bottom)
+        return tf.fft(bottom)
 
 def _ifft(bottom, sequential, compute_size):
     if sequential:
         return sequential_batch_ifft(bottom, compute_size)
     else:
-        return tf.batch_ifft(bottom)
+        return tf.ifft(bottom)
 
 def _generate_sketch_matrix(rand_h, rand_s, output_dim):
     """
@@ -82,7 +82,8 @@ def compact_bilinear_pooling_layer(bottom1, bottom2, output_dim, sum_pool=True,
 
         sequential: (Optional) if True, use the sequential FFT and IFFT
                     instead of tf.batch_fft or tf.batch_ifft to avoid
-                    out-of-memory error.
+                    out-of-memory (OOM) error.
+                    Note: sequential FFT and IFFT are only available on GPU
                     Default: True.
         compute_size: (Optional) The maximum size of sub-batch to be forwarded
                       through FFT or IFFT in one time. Large compute_size may
