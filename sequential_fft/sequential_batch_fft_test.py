@@ -12,11 +12,11 @@ x_128 = tf.placeholder(tf.complex128, [None, None])
 # FFT
 x_fft = sequential_batch_fft(x, compute_size)
 x_fft_128 = sequential_batch_fft(x_128, compute_size)
-x_fft_tf = tf.batch_fft(x)
+x_fft_tf = tf.fft(x)
 # IFFT
 x_ifft = sequential_batch_ifft(x, compute_size)
 x_ifft_128 = sequential_batch_ifft(x_128, compute_size)
-x_ifft_tf = tf.batch_ifft(x)
+x_ifft_tf = tf.ifft(x)
 # Grads
 gx_fft = tf.gradients(x_fft, x)[0]
 gx_fft_128 = tf.gradients(x_fft_128, x_128)[0]
@@ -47,8 +47,8 @@ def test_forward():
     print("Testing forward...")
 
     sess = tf.Session()
-    for dim in xrange(1000, 5000, 1000):
-        for batch_size in xrange(1, 10):
+    for dim in range(1000, 5000, 1000):
+        for batch_size in range(1, 10):
             x_val = (np.random.randn(batch_size, dim) +
                      np.random.randn(batch_size, dim) * 1j).astype(np.complex64)
 
@@ -80,8 +80,8 @@ def test_gradient():
     print("Testing gradient...")
 
     sess = tf.Session()
-    for dim in xrange(1000, 5000, 1000):
-        for batch_size in xrange(1, 10):
+    for dim in range(1000, 5000, 1000):
+        for batch_size in range(1, 10):
             x_val = (np.random.randn(batch_size, dim) +
                      np.random.randn(batch_size, dim) * 1j).astype(np.complex64)
 
@@ -114,7 +114,7 @@ def test_large_input():
     print("Testing large input...")
 
     sess = tf.Session()
-    batch_size, dim = 128*16*16, 16000
+    batch_size, dim = 64*16*16, 16000
     print("Forwarding and Backwarding with input shape",
           [batch_size, dim], "This may take a while...")
     x_val = (np.random.randn(batch_size, dim) +
