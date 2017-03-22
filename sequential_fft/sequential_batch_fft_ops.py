@@ -12,13 +12,14 @@ module = tf.load_op_library(osp.join(osp.dirname(__file__),
 sequential_batch_fft = module.sequential_batch_fft
 sequential_batch_ifft = module.sequential_batch_ifft
 
-@tf.RegisterShape("SequentialBatchFFT")
-def _SequentialBatchFFTShape(op):
-    return [op.inputs[0].get_shape()]
-
-@tf.RegisterShape("SequentialBatchIFFT")
-def _SequentialBatchIFFTShape(op):
-    return [op.inputs[0].get_shape()]
+# Shape registration is moved to C++ to be compatible with TensorFlow 1.0 API
+# @tf.RegisterShape("SequentialBatchFFT")
+# def _SequentialBatchFFTShape(op):
+#     return [op.inputs[0].get_shape()]
+# 
+# @tf.RegisterShape("SequentialBatchIFFT")
+# def _SequentialBatchIFFTShape(op):
+#     return [op.inputs[0].get_shape()]
 
 @ops.RegisterGradient("SequentialBatchFFT")
 def _SequentialBatchFFTGrad(op, grad):

@@ -1,5 +1,6 @@
 #include "tensorflow/core/framework/op.h"
 #include "tensorflow/core/framework/op_kernel.h"
+#include "tensorflow/core/framework/common_shape_fns.h"
 
 using namespace tensorflow;
 
@@ -7,13 +8,15 @@ REGISTER_OP("SequentialBatchFFT")
     .Attr("T: {complex64, complex128} = DT_COMPLEX64")
     .Attr("compute_size: int = 128")
     .Input("input: T")
-    .Output("output: T");
+    .Output("output: T")
+    .SetShapeFn(::tensorflow::shape_inference::UnchangedShape);
 
 REGISTER_OP("SequentialBatchIFFT")
     .Attr("T: {complex64, complex128} = DT_COMPLEX64")
     .Attr("compute_size: int = 128")
     .Input("input: T")
-    .Output("output: T");
+    .Output("output: T")
+    .SetShapeFn(::tensorflow::shape_inference::UnchangedShape);
 
 bool SequentialFFTCUDAKernel(const complex64* in, int batch_size, int dim,
     int compute_size, bool forward, complex64* out);

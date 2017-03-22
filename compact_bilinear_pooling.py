@@ -139,12 +139,12 @@ def compact_bilinear_pooling_layer(bottom1, bottom2, output_dim, sum_pool=True,
                 sequential, compute_size)
 
     # Step 3: Elementwise product
-    fft_product = tf.mul(fft1, fft2)
+    fft_product = tf.multiply(fft1, fft2)
 
     # Step 4: Inverse FFT and reshape back
     # Compute output shape dynamically: [batch_size, height, width, output_dim]
     cbp_flat = tf.real(_ifft(fft_product, sequential, compute_size))
-    output_shape = tf.add(tf.mul(tf.shape(bottom1), [1, 1, 1, 0]),
+    output_shape = tf.add(tf.multiply(tf.shape(bottom1), [1, 1, 1, 0]),
                           [0, 0, 0, output_dim])
     cbp = tf.reshape(cbp_flat, output_shape)
 

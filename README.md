@@ -65,13 +65,13 @@ Note that `sequential=True` (Default) only supports GPU computation, with no CPU
 # Building
 
 The `sequential_fft/build/sequential_batch_fft.so` is built against TensorFlow
-version 0.12.1 with CUDA 8.0 and g++ 4.8.4, which should be compatible with the
-official build of TensorFlow 0.12.1 on Ubuntu/Linux 64-bit.
+version 1.0.0 with CUDA 8.0 and g++ 4.8.4, which should be compatible with the
+official build of TensorFlow 1.0.0 on Ubuntu/Linux 64-bit.
 
 If you set `sequential=True` (Default), you will need this `sequential_batch_fft.so` to be compatible with your TensorFlow installation.
 
 If installed TensorFlow from source, or want to use a different version of TensorFlow
-other than 0.12.1 that may be built with a different compiler and a different CUDA
+other than 1.0.0 that may be built with a different compiler and a different CUDA
 version, you may need to rebuild `sequential_batch_fft.so` with `compile.sh` in `sequential_fft/`,
 *using the same CUDA version and C++ compiler*. To see the compiler version of an official TF build,
 run in Python the follows.
