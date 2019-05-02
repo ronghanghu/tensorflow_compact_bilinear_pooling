@@ -18,12 +18,14 @@ x_ifft = sequential_batch_ifft(x, compute_size)
 x_ifft_128 = sequential_batch_ifft(x_128, compute_size)
 x_ifft_tf = tf.ifft(x)
 # Grads
-gx_fft = tf.gradients(x_fft, x)[0]
-gx_fft_128 = tf.gradients(x_fft_128, x_128)[0]
-gx_fft_tf = tf.gradients(x_fft_tf, x)[0]
-gx_ifft = tf.gradients(x_ifft, x)[0]
-gx_ifft_128 = tf.gradients(x_ifft_128, x_128)[0]
-gx_ifft_tf = tf.gradients(x_ifft_tf, x)[0]
+g_out = tf.ones_like(x_fft)
+g_out_128 = tf.ones_like(x_fft_128)
+gx_fft = tf.gradients(x_fft, x, g_out)[0]
+gx_fft_128 = tf.gradients(x_fft_128, x_128, g_out_128)[0]
+gx_fft_tf = tf.gradients(x_fft_tf, x, g_out)[0]
+gx_ifft = tf.gradients(x_ifft, x, g_out)[0]
+gx_ifft_128 = tf.gradients(x_ifft_128, x_128, g_out_128)[0]
+gx_ifft_tf = tf.gradients(x_ifft_tf, x, g_out)[0]
 
 def test_shape():
     print("Testing shape...")
@@ -33,8 +35,8 @@ def test_shape():
     input_pl = tf.placeholder(tf.complex64, [1000, 16000])
     output_fft = sequential_batch_fft(input_pl)
     output_ifft = sequential_batch_ifft(input_pl)
-    g_fft = tf.gradients(output_fft, input_pl)[0]
-    g_ifft = tf.gradients(output_ifft, input_pl)[0]
+    g_fft = tf.gradients(output_fft, input_pl, g_out)[0]
+    g_ifft = tf.gradients(output_ifft, input_pl, g_out)[0]
     assert(output_fft.get_shape() == input_pl.get_shape())
     assert(output_ifft.get_shape() == input_pl.get_shape())
     assert(g_fft.get_shape() == input_pl.get_shape())
