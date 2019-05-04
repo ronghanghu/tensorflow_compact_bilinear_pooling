@@ -147,6 +147,8 @@ def compact_bilinear_pooling_layer(bottom1, bottom2, output_dim, sum_pool=True,
     output_shape = tf.add(tf.multiply(tf.shape(bottom1), [1, 1, 1, 0]),
                           [0, 0, 0, output_dim])
     cbp = tf.reshape(cbp_flat, output_shape)
+    # set static shape for the output
+    cbp.set_shape(bottom1.get_shape().as_list()[:-1] + [output_dim])
 
     # Step 5: Sum pool over spatial dimensions, if specified
     if sum_pool:
